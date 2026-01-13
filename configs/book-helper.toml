@@ -1,0 +1,3 @@
+bind_addr = ":8080"
+db_url = "host=localhost dbname=restapi_test sslmode=disable"
+tg_token = ""
