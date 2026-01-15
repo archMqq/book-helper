@@ -5,13 +5,15 @@ import (
 	"time"
 
 	"github.com/archMqq/book-helper/internal/config"
+	"github.com/archMqq/book-helper/internal/store/sqlstore"
 	tele "gopkg.in/telebot.v4"
 )
 
 func Start(cfg *config.Config) {
 	b := initBot(cfg)
-
-	InitHandlers(b)
+	store := sqlstore.New()
+	srv := newServer(b, store)
+	initHandlers(srv)
 
 	b.Start()
 }

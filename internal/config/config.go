@@ -2,7 +2,7 @@ package config
 
 type Config struct {
 	BindAddr string `toml:"bind_addr"`
-	Database string `toml:"database"`
+	Database string `toml:"db_url"`
 	TGToken  string `toml:"tg_token"`
 }
 

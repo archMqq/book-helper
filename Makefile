@@ -1,5 +1,5 @@
 .PHONY: build
 build:
-	go build -0 librarian ./
+	go build -v ./cmd/book-helper
 
 .DEFAULT_GOAL: build
