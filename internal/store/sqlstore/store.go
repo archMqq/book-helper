@@ -1,19 +1,28 @@
 package sqlstore
 
-import "github.com/archMqq/book-helper/internal/repository"
+import (
+	"database/sql"
+
+	"github.com/archMqq/book-helper/internal/store"
+)
 
 type Store struct {
-	userRepository *repository.UserRepository
+	userRepository *UserRepository
+	db             *sql.DB
 }
 
-func New() *Store {
-	return &Store{}
-}
-
-func (s *Store) User() *repository.UserRepository {
-	if s.userRepository != nil {
-		return s.userRepository
+func New(db *sql.DB) *Store {
+	return &Store{
+		db: db,
 	}
-	s.userRepository = &repository.UserRepository{}
-	return s.userRepository
+}
+
+func (s *Store) User() store.UserRepository {
+	if s.userRepository != nil {
+		return *s.userRepository
+	}
+	s.userRepository = &UserRepository{
+		store: s,
+	}
+	return *s.userRepository
 }

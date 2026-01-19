@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"database/sql"
 	"log"
 	"time"
 
@@ -11,8 +12,14 @@ import (
 
 func Start(cfg *config.Config) {
 	b := initBot(cfg)
-	store := sqlstore.New()
+	db, err := newDB(cfg.Database)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+	store := sqlstore.New(db)
 	srv := newServer(b, store)
+
 	initHandlers(srv)
 
 	b.Start()
@@ -30,4 +37,17 @@ func initBot(cfg *config.Config) *tele.Bot {
 	}
 
 	return b
+}
+
+func newDB(url string) (*sql.DB, error) {
+	db, err := sql.Open("postgres", url)
+	if err != nil {
+		return nil, err
+	}
+
+	if err = db.Ping(); err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
