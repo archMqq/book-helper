@@ -5,11 +5,11 @@ import tele "gopkg.in/telebot.v4"
 func initHandlers(srv *server) {
 	srv.bot.Handle("/start", func(c tele.Context) error {
 		userID := c.Sender().ID
-		userName := c.Sender().FirstName
+		username := c.Sender().FirstName
 
-		err := srv.store.User().Register(userID, userName)
+		err := srv.service.CreateUser(userID, username)
 		if err != nil {
-			return c.Send("С возвращением " + userName)
+			return c.Send("С возвращением " + username)
 		}
 
 		return c.Send(c.Text())

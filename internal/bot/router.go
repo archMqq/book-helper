@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/archMqq/book-helper/internal/config"
-	"github.com/archMqq/book-helper/internal/store/sqlstore"
+	"github.com/archMqq/book-helper/internal/service/sqlstore"
 	tele "gopkg.in/telebot.v4"
 )
 
@@ -17,8 +17,8 @@ func Start(cfg *config.Config) {
 		log.Fatal(err)
 	}
 	defer db.Close()
-	store := sqlstore.New(db)
-	srv := newServer(b, store)
+	service := sqlstore.New(db)
+	srv := newServer(b, service)
 
 	initHandlers(srv)
 
