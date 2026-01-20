@@ -1,4 +1,4 @@
-package sqlstore
+package repository
 
 import (
 	"database/sql"
@@ -13,6 +13,12 @@ type UserRepository struct {
 var (
 	ErrUserExists = errors.New("user already exists")
 )
+
+func NewUser(db *sql.DB) *UserRepository {
+	return &UserRepository{
+		db: db,
+	}
+}
 
 func (ur UserRepository) Register(userID int64, username string) error {
 	query := "INSERT INTO User (TelegramID, Username) VALUES ($2, $3) ON CONFLICT DO NOTHING"

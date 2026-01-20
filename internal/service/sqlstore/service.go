@@ -5,17 +5,16 @@ import (
 	"strings"
 
 	"github.com/archMqq/book-helper/internal/domain"
+	"github.com/archMqq/book-helper/internal/repository"
 )
 
 type UserService struct {
-	userRepository *UserRepository
+	userRepository *repository.UserRepository
 }
 
-func New(db *sql.DB) *UserService {
+func NewUserService(db *sql.DB) *UserService {
 	return &UserService{
-		userRepository: &UserRepository{
-			db: db,
-		},
+		userRepository: repository.NewUser(db),
 	}
 }
 

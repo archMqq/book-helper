@@ -9,17 +9,19 @@ import (
 )
 
 type server struct {
-	bot     *tele.Bot
-	logger  *logrus.Logger
-	service service.UserService
-	router  *mux.Router
+	bot         *tele.Bot
+	router      *mux.Router
+	logger      *logrus.Logger
+	userService service.UserService
+	recService  service.RecService
 }
 
-func newServer(b *tele.Bot, service service.UserService) *server {
+func newServer(b *tele.Bot, userService service.UserService, recService service.RecService) *server {
 	return &server{
-		router:  mux.NewRouter(),
-		logger:  logger.Init(),
-		bot:     b,
-		service: service,
+		router:      mux.NewRouter(),
+		logger:      logger.Init(),
+		bot:         b,
+		userService: userService,
+		recService:  recService,
 	}
 }

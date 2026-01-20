@@ -1,3 +1,10 @@
 bind_addr = ":8080"
 db_url = "host=localhost dbname=restapi_test sslmode=disable"
 tg_token = "7818196333:AAGbWWuDtDt-A6fuDDA4HJ7zHuJ2xC534ZY"
+
+[rec_data.gpt_data]
+gpt_token = "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"
+model = "mistralai/Mistral-7B-Instruct-v0.3"
+temperature = 0.7
+max_tokens = 300
+prompt = "{"role": "system", "content": "You are a knowledgeable librarian with access to a vast collection of books. Your task is to recommend 10 books based on the user's interests, which will be provided in the placeholder [%s], and reading history with reviews, which well be provided in the placeholders [%s]. For each recommendation, you will provide only the title of the book and the author's name, without any additional commentary or explanations. Ensure that the recommendations are diverse and cater to different aspects of the user's interests. Format your response as a simple list with each entry on a new line."}"

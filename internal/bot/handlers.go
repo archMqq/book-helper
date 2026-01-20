@@ -7,7 +7,7 @@ func initHandlers(srv *server) {
 		userID := c.Sender().ID
 		username := c.Sender().FirstName
 
-		err := srv.service.CreateUser(userID, username)
+		err := srv.userService.CreateUser(userID, username)
 		if err != nil {
 			return c.Send("С возвращением " + username)
 		}

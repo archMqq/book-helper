@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/archMqq/book-helper/internal/config"
+	"github.com/archMqq/book-helper/internal/service/recommend"
 	"github.com/archMqq/book-helper/internal/service/sqlstore"
 	tele "gopkg.in/telebot.v4"
 )
@@ -17,8 +18,11 @@ func Start(cfg *config.Config) {
 		log.Fatal(err)
 	}
 	defer db.Close()
-	service := sqlstore.New(db)
-	srv := newServer(b, service)
+
+	userService := sqlstore.NewUserService(db)
+	recService := recommend.New(&cfg.Rec)
+
+	srv := newServer(b, userService, recService)
 
 	initHandlers(srv)
 
