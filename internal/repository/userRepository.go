@@ -2,17 +2,13 @@ package repository
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
+	"time"
 )
 
 type UserRepository struct {
 	db *sql.DB
 }
-
-var (
-	ErrUserExists = errors.New("user already exists")
-)
 
 func NewUser(db *sql.DB) *UserRepository {
 	return &UserRepository{
@@ -21,9 +17,9 @@ func NewUser(db *sql.DB) *UserRepository {
 }
 
 func (ur UserRepository) Register(userID int64, username string) error {
-	query := "INSERT INTO User (TelegramID, Username) VALUES ($2, $3) ON CONFLICT DO NOTHING"
+	query := "INSERT INTO User (TelegramID, Username, CreateTime) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING"
 
-	res, err := ur.db.Exec(query, userID, username)
+	res, err := ur.db.Exec(query, userID, username, time.Now)
 	if err != nil {
 		return err
 	}

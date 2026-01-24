@@ -5,3 +5,9 @@ type User struct {
 	TgID int64
 	Name string
 }
+
+type Preferences struct {
+	UserID          int
+	FavoriteGenres  []string
+	FavoriteAuthors []string
+}

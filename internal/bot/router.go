@@ -8,6 +8,7 @@ import (
 	"github.com/archMqq/book-helper/internal/config"
 	"github.com/archMqq/book-helper/internal/service/recommend"
 	"github.com/archMqq/book-helper/internal/service/sqlstore"
+	_ "github.com/lib/pq"
 	tele "gopkg.in/telebot.v4"
 )
 
