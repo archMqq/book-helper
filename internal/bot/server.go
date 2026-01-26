@@ -39,17 +39,17 @@ func (s *server) helloHandle(c tele.Context) error {
 	return c.Send(c.Text())
 }
 
-func (s *server) newBooksHandle(c tele.Context) error {
-	//temp
-	pref, err := s.recService.GetBooks(&domain.Preferences{
-		UserID:          1,
-		FavoriteGenres:  []string{"Фантастика"},
-		FavoriteAuthors: []string{"Братья Стругацкие"},
-	})
-	//pref, err := s.userService.GetPreferences
-	if err == domain.ErrGptIsDown {
-		return c.Send("Ошибка сервера при запросе рекомендаций")
+func (s *server) getBooksHandle(c tele.Context) error {
+	userID := c.Sender().ID
+	pref, err := s.userService.GetPreferences(userID)
+	if err == domain.ErrDatabaseRequest {
+		return c.Send("Наблюдается ошибка на стороне сервера. Повторите попытку позже.")
 	}
 
-	return c.Send(pref)
+	rec, err := s.recService.GetBooks(pref)
+	if err == domain.ErrGptIsDown {
+		return c.Send("Ошибка сервера при запросе рекомендаций.")
+	}
+
+	return c.Send(rec)
 }

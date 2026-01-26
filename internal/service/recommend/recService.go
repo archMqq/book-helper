@@ -7,6 +7,7 @@ import (
 	"github.com/archMqq/book-helper/internal/clients"
 	"github.com/archMqq/book-helper/internal/config"
 	"github.com/archMqq/book-helper/internal/domain"
+	"github.com/archMqq/book-helper/internal/models"
 )
 
 type RecService struct {
@@ -19,7 +20,7 @@ func New(cfg *config.RecData) *RecService {
 	}
 }
 
-func (rs RecService) GetBooks(pref *domain.Preferences) (string, error) {
+func (rs RecService) GetBooks(pref *models.Preferences) (string, error) {
 	strPref := fmt.Sprintf("favorite genres: %s, favorite authors: %s",
 		strings.Join(pref.FavoriteGenres, ", "),
 		strings.Join(pref.FavoriteAuthors, ", "),

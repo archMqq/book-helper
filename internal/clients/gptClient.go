@@ -42,8 +42,12 @@ func (g *GPTClient) AskForNewBooks(pref string) (string, error) {
 		},
 		Messages: []yandexgpt.YandexGPTMessage{
 			{
+				Role: yandexgpt.YandexGPTMessageRoleSystem,
+				Text: g.prompt,
+			},
+			{
 				Role: yandexgpt.YandexGPTMessageRoleUser,
-				Text: fmt.Sprintf(g.prompt, pref),
+				Text: fmt.Sprintf("My preferences: %s", pref),
 			},
 		},
 	})

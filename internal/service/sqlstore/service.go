@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/archMqq/book-helper/internal/domain"
+	"github.com/archMqq/book-helper/internal/models"
 	"github.com/archMqq/book-helper/internal/repository"
 )
 
@@ -26,4 +27,13 @@ func (us UserService) CreateUser(userID int64, username string) error {
 	}
 
 	return nil
+}
+
+func (us UserService) GetPreferences(userID int64) (*models.Preferences, error) {
+	res, err := us.userRepository.GetPreferences(userID)
+	if err != nil {
+		return nil, domain.ErrDatabaseRequest
+	}
+
+	return res, nil
 }

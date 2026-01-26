@@ -2,8 +2,11 @@ package repository
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"time"
+
+	"github.com/archMqq/book-helper/internal/models"
 )
 
 type UserRepository struct {
@@ -29,4 +32,34 @@ func (ur UserRepository) Register(userID int64, username string) error {
 	}
 
 	return nil
+}
+
+func (ur UserRepository) GetPreferences(userID int64) (*models.Preferences, error) {
+	query := "GET FavoriteGrenres, FavoriteAuthors FROM Preferences WHERE UserID = $1"
+
+	rows, err := ur.db.Query(query, userID)
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	pref := models.Preferences{}
+
+	for rows.Next() {
+		var genres, authors string
+		rows.Scan(&genres, &authors)
+
+		err = json.Unmarshal([]byte(genres), &pref.FavoriteGenres)
+		if err != nil {
+			return nil, err
+		}
+
+		err = json.Unmarshal([]byte(authors), &pref.FavoriteAuthors)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return &pref, nil
 }
