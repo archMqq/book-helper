@@ -1,11 +1,11 @@
 package models
 
 type User struct {
-	TgID int64
+	ID   int64
 	Name string
 }
 
 type Preferences struct {
-	FavoriteGenres  []string
-	FavoriteAuthors []string
+	FavoriteGenres  []string // JSONB
+	FavoriteAuthors []string // JSONB
 }

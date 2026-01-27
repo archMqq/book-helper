@@ -22,7 +22,6 @@ func Start(cfg *config.Config) {
 
 	userService := sqlstore.NewUserService(db)
 	recService := recommend.New(&cfg.Rec)
-
 	srv := newServer(b, userService, recService)
 
 	initHandlers(srv)

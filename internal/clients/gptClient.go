@@ -57,7 +57,6 @@ func (g *GPTClient) AskForNewBooks(pref string) (string, error) {
 		return "", fmt.Errorf("YandexGPT: %w", err)
 	}
 
-	// ← res это *YandexGPTResponse, не строка!
 	if len(res.Result.Alternatives) == 0 {
 		return "Пустой ответ", nil
 	}
