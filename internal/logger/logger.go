@@ -1,8 +1,15 @@
 package logger
 
-import "github.com/sirupsen/logrus"
+import (
+	"os"
+
+	"github.com/sirupsen/logrus"
+)
 
 // TODO: добавить запись логов в графану
 func Init() *logrus.Logger {
-	return nil
+	logger := logrus.New()
+	logger.SetLevel(logrus.DebugLevel)
+	logger.SetOutput(os.Stdout)
+	return logger
 }

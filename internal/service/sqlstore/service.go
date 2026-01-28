@@ -1,7 +1,9 @@
 package sqlstore
 
 import (
+	"context"
 	"database/sql"
+	"fmt"
 	"strings"
 
 	"github.com/archMqq/book-helper/internal/domain"
@@ -21,31 +23,48 @@ func NewUserService(db *sql.DB) *UserService {
 	}
 }
 
-func (us UserService) CreateUser(userID int64, username string) error {
-	err := us.userRepository.Register(userID, username)
+func (us UserService) CreateUser(ctx context.Context, userID int64, username string) error {
+	err := us.userRepository.Register(ctx, userID, username)
+	if err != nil {
+		if strings.Contains(err.Error(), "already exists") {
+			return domain.ErrUserExists
+		}
 
-	if strings.Contains(err.Error(), "alredy exists") {
-		return domain.ErrUserExists
-	} else if err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (us UserService) GetPreferences(userID int64) (*models.Preferences, error) {
-	res, err := us.userRepository.GetPreferences(userID)
+func (us UserService) GetPreferences(ctx context.Context, userID int64) (*models.Preferences, error) {
+	res, err := us.userRepository.GetPreferences(ctx, userID)
 	if err != nil {
+		fmt.Println(err)
 		return nil, domain.ErrDatabaseRequest
 	}
 
 	return res, nil
 }
 
-func (us UserService) SaveAuthors(userID int64, authors []string) error {
-	err := us.userRepository.SaveFavoriteAuthors(userID, authors)
+func (us UserService) SaveAuthors(ctx context.Context, userID int64, authors []string) error {
+	err := us.userRepository.SaveFavoriteAuthors(ctx, userID, authors)
 	if err != nil {
-		return domain.ErrDatabaseRequest
+		if strings.Contains(err.Error(), "marshalling") {
+			return err
+		}
+		return fmt.Errorf("%w: %w", domain.ErrDatabaseRequest, err)
+	}
+
+	return nil
+}
+
+func (us UserService) SaveGenres(ctx context.Context, userID int64, genres []string) error {
+	err := us.userRepository.SaveFavoriteGenres(ctx, userID, genres)
+	if err != nil {
+		if strings.Contains(err.Error(), "marshalling") {
+			return err
+		}
+		return fmt.Errorf("%w: %w", domain.ErrDatabaseRequest, err)
 	}
 
 	return nil

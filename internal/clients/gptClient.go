@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"github.com/archMqq/book-helper/internal/config"
 	"github.com/sheeiavellie/go-yandexgpt"
@@ -30,10 +29,7 @@ func NewGpt(cfg config.GPTData) *GPTClient {
 	}
 }
 
-func (g *GPTClient) AskForNewBooks(pref string) (string, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
-	defer cancel()
-
+func (g *GPTClient) AskForNewBooks(ctx context.Context, pref string) (string, error) {
 	res, err := g.client.GetCompletion(ctx, yandexgpt.YandexGPTRequest{
 		ModelURI: g.model,
 		CompletionOptions: yandexgpt.YandexGPTCompletionOptions{

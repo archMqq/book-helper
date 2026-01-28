@@ -1,6 +1,7 @@
 package recommend
 
 import (
+	"context"
 	"fmt"
 	"strings"
 
@@ -20,13 +21,13 @@ func New(cfg *config.RecData) *RecService {
 	}
 }
 
-func (rs RecService) GetBooks(pref *models.Preferences) (string, error) {
+func (rs RecService) GetBooks(ctx context.Context, pref *models.Preferences) (string, error) {
 	strPref := fmt.Sprintf("favorite genres: %s, favorite authors: %s",
 		strings.Join(pref.FavoriteGenres, ", "),
 		strings.Join(pref.FavoriteAuthors, ", "),
 	)
 
-	res, err := rs.gptClient.AskForNewBooks(strPref)
+	res, err := rs.gptClient.AskForNewBooks(ctx, strPref)
 	if err != nil {
 		return "", domain.ErrGptIsDown
 	}
