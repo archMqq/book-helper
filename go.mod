@@ -10,6 +10,7 @@ require (
 	github.com/sheeiavellie/go-yandexgpt v1.8.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/stretchr/testify v1.11.1
+	golang.org/x/time v0.0.0-20191024005414-555d28b269f0
 	gopkg.in/telebot.v4 v4.0.0-beta.7
 )
 
