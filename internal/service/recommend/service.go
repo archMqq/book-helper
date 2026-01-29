@@ -1,3 +1,4 @@
+//go:generate mockgen -source=service.go -destination=mocks/service.go -package=mocks
 package recommend
 
 import (
@@ -5,19 +6,21 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/archMqq/book-helper/internal/clients"
-	"github.com/archMqq/book-helper/internal/config"
 	"github.com/archMqq/book-helper/internal/domain"
 	"github.com/archMqq/book-helper/internal/models"
 )
 
-type RecService struct {
-	gptClient *clients.GPTClient
+type GPTClient interface {
+	AskForNewBooks(context.Context, string) (string, error)
 }
 
-func New(cfg *config.RecData) *RecService {
+type RecService struct {
+	gptClient GPTClient
+}
+
+func New(gptClient GPTClient) *RecService {
 	return &RecService{
-		gptClient: clients.NewGpt(cfg.GPTData),
+		gptClient: gptClient,
 	}
 }
 

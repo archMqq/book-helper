@@ -1,25 +1,31 @@
+//go:generate mockgen -source=service.go -destination=mocks/service.go -package=mocks
 package sqlstore
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"strings"
 
 	"github.com/archMqq/book-helper/internal/domain"
 	"github.com/archMqq/book-helper/internal/models"
-	"github.com/archMqq/book-helper/internal/repository"
 	"github.com/sirupsen/logrus"
 )
 
+type UserRepository interface {
+	Register(context.Context, int64, string) error
+	GetPreferences(context.Context, int64) (*models.Preferences, error)
+	SaveFavoriteAuthors(context.Context, int64, []string) error
+	SaveFavoriteGenres(context.Context, int64, []string) error
+}
+
 type UserService struct {
-	userRepository *repository.UserRepository
+	userRepository UserRepository
 	logger         *logrus.Logger
 }
 
-func NewUserService(db *sql.DB) *UserService {
+func NewUserService(userRepo UserRepository) *UserService {
 	return &UserService{
-		userRepository: repository.NewUser(db),
+		userRepository: userRepo,
 	}
 }
 

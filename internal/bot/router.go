@@ -5,7 +5,9 @@ import (
 	"log"
 	"time"
 
+	"github.com/archMqq/book-helper/internal/clients"
 	"github.com/archMqq/book-helper/internal/config"
+	"github.com/archMqq/book-helper/internal/repository"
 	"github.com/archMqq/book-helper/internal/service/recommend"
 	"github.com/archMqq/book-helper/internal/service/sqlstore"
 	_ "github.com/lib/pq"
@@ -20,10 +22,13 @@ func Start(cfg *config.Config) {
 	}
 	defer db.Close()
 
-	userService := sqlstore.NewUserService(db)
-	recService := recommend.New(&cfg.Rec)
-	srv := newServer(b, userService, recService)
+	userRepo := repository.NewUser(db)
+	userService := sqlstore.NewUserService(userRepo)
 
+	gptClient := clients.NewYandexGpt(cfg.Rec.GPTData)
+	recService := recommend.New(gptClient)
+
+	srv := newServer(b, userService, recService)
 	initHandlers(srv)
 
 	b.Start()

@@ -9,7 +9,7 @@ import (
 	"github.com/sheeiavellie/go-yandexgpt"
 )
 
-type GPTClient struct {
+type YandexGPTClient struct {
 	token       string
 	model       string
 	temperature float64
@@ -19,8 +19,8 @@ type GPTClient struct {
 	client *yandexgpt.YandexGPTClient
 }
 
-func NewGpt(cfg config.GPTData) *GPTClient {
-	return &GPTClient{
+func NewYandexGpt(cfg config.GPTData) *YandexGPTClient {
+	return &YandexGPTClient{
 		model:       cfg.Model,
 		temperature: cfg.Temperature,
 		maxTokens:   cfg.MaxTokens,
@@ -29,7 +29,7 @@ func NewGpt(cfg config.GPTData) *GPTClient {
 	}
 }
 
-func (g *GPTClient) AskForNewBooks(ctx context.Context, pref string) (string, error) {
+func (g *YandexGPTClient) AskForNewBooks(ctx context.Context, pref string) (string, error) {
 	res, err := g.client.GetCompletion(ctx, yandexgpt.YandexGPTRequest{
 		ModelURI: g.model,
 		CompletionOptions: yandexgpt.YandexGPTCompletionOptions{
