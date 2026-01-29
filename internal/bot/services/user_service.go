@@ -1,13 +1,13 @@
-//go:generate mockgen -source=service.go -destination=mocks/service.go -package=mocks
-package sqlstore
+//go:generate mockgen -source=user_service.go -destination=mocks/iser_service.go -package=mocks
+package services
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
-	"github.com/archMqq/book-helper/internal/domain"
-	"github.com/archMqq/book-helper/internal/models"
+	"github.com/archMqq/book-helper/internal/bot/domain"
+	"github.com/archMqq/book-helper/internal/bot/models"
 	"github.com/sirupsen/logrus"
 )
 

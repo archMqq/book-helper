@@ -1,3 +1,11 @@
 *.toml
 configs/*toml
-book-helper
+botm
+gptm
+booksm
+.env
+
+*.log
+*.tmp
+*.swp
+.DS_Store

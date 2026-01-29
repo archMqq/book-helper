@@ -1,13 +1,13 @@
-package recommend_test
+package services_test
 
 import (
 	"context"
 	"testing"
 
-	"github.com/archMqq/book-helper/internal/domain"
-	"github.com/archMqq/book-helper/internal/models"
-	"github.com/archMqq/book-helper/internal/service/recommend"
-	"github.com/archMqq/book-helper/internal/service/recommend/mocks"
+	"github.com/archMqq/book-helper/internal/gpt/domain"
+	"github.com/archMqq/book-helper/internal/gpt/models"
+	"github.com/archMqq/book-helper/internal/gpt/services"
+	"github.com/archMqq/book-helper/internal/gpt/services/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
@@ -55,7 +55,7 @@ func TestRecomendations(t *testing.T) {
 				AskForNewBooks(gomock.Any(), gomock.Any()).
 				Return(tc.output, tc.err)
 
-			recService := recommend.New(mockGPT)
+			recService := services.New(mockGPT)
 			res, err := recService.GetBooks(context.Background(), tc.preferences)
 
 			if tc.err != nil {

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/archMqq/book-helper/internal/models"
+	"github.com/archMqq/book-helper/internal/bot/models"
 )
 
 type UserRepository struct {

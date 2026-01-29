@@ -1,13 +1,13 @@
 //go:generate mockgen -source=service.go -destination=mocks/service.go -package=mocks
-package recommend
+package services
 
 import (
 	"context"
 	"fmt"
 	"strings"
 
-	"github.com/archMqq/book-helper/internal/domain"
-	"github.com/archMqq/book-helper/internal/models"
+	"github.com/archMqq/book-helper/internal/gpt/domain"
+	"github.com/archMqq/book-helper/internal/gpt/models"
 )
 
 type GPTClient interface {

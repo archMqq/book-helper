@@ -3,10 +3,10 @@ test:
 	go test -v -timeout 30s ./... 
 
 build: test
-	go build -v ./cmd/book-helper
+	go build -v -o gptm ./cmd/gpt
 
 run: build
-	./book-helper
+	./gptm
 
 
 .DEFAULT_GOAL: build

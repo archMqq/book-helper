@@ -5,11 +5,9 @@ import (
 	"log"
 	"time"
 
-	"github.com/archMqq/book-helper/internal/clients"
-	"github.com/archMqq/book-helper/internal/config"
-	"github.com/archMqq/book-helper/internal/repository"
-	"github.com/archMqq/book-helper/internal/service/recommend"
-	"github.com/archMqq/book-helper/internal/service/sqlstore"
+	"github.com/archMqq/book-helper/internal/bot/config"
+	"github.com/archMqq/book-helper/internal/bot/repository"
+	"github.com/archMqq/book-helper/internal/bot/services"
 	_ "github.com/lib/pq"
 	tele "gopkg.in/telebot.v4"
 )
@@ -23,24 +21,21 @@ func Start(cfg *config.Config) {
 	defer db.Close()
 
 	userRepo := repository.NewUser(db)
-	userService := sqlstore.NewUserService(userRepo)
+	userService := services.NewUserService(userRepo)
 
-	gptClient := clients.NewYandexGpt(cfg.Rec.GPTData)
-	recService := recommend.New(gptClient)
-
-	srv := newServer(b, userService, recService)
+	srv := newServer(b, userService)
 	initHandlers(srv)
 
 	b.Start()
 }
 
 func initBot(cfg *config.Config) *tele.Bot {
-	pref := tele.Settings{
+	settings := tele.Settings{
 		Token:  cfg.TGToken,
 		Poller: &tele.LongPoller{Timeout: 5 * time.Second},
 	}
 
-	b, err := tele.NewBot(pref)
+	b, err := tele.NewBot(settings)
 	if err != nil {
 		log.Fatalf("%s %s", "bot init err:", err)
 	}

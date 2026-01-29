@@ -6,9 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/archMqq/book-helper/internal/bot/models"
 	"github.com/archMqq/book-helper/internal/logger"
-	"github.com/archMqq/book-helper/internal/service"
-	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/time/rate"
 	"gopkg.in/telebot.v4"
@@ -30,23 +29,29 @@ const (
 	StateSearching
 )
 
+type UserService interface {
+	// Возвращает ErrUserExists, если пользователь существует
+	CreateUser(context.Context, int64, string) error
+
+	GetPreferences(context.Context, int64) (*models.Preferences, error)
+
+	SaveAuthors(context.Context, int64, []string) error
+	SaveGenres(context.Context, int64, []string) error
+}
+
 type server struct {
 	bot         *tele.Bot
-	router      *mux.Router
 	logger      *logrus.Logger
-	userService service.UserService
-	recService  service.RecService
+	userService UserService
 	states      *userStates
 	msgQueue    *msgQueue
 }
 
-func newServer(b *tele.Bot, userService service.UserService, recService service.RecService) *server {
+func newServer(b *tele.Bot, userService UserService) *server {
 	return &server{
-		router:      mux.NewRouter(),
 		logger:      logger.Init(),
 		bot:         b,
 		userService: userService,
-		recService:  recService,
 		states:      newUserStates(),
 		msgQueue:    newMsgQueue(),
 	}

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/archMqq/book-helper/internal/domain"
+	"github.com/archMqq/book-helper/internal/bot/domain"
 	tele "gopkg.in/telebot.v4"
 )
 
@@ -51,12 +51,13 @@ func (s *server) helloHandle(c tele.Context) error {
 
 }
 
+// TODO: переделать на запись в кафку
 func (s *server) getBooksHandle(c tele.Context) error {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*7)
 	defer cancel()
 
 	userID := c.Sender().ID
-	pref, err := s.userService.GetPreferences(ctx, userID)
+	_, err := s.userService.GetPreferences(ctx, userID)
 	if err != nil {
 		if err == domain.ErrDatabaseRequest {
 			s.logger.Error(fmt.Errorf("error db request: %w", err))
@@ -68,20 +69,7 @@ func (s *server) getBooksHandle(c tele.Context) error {
 		}
 	}
 
-	rec, err := s.recService.GetBooks(ctx, pref)
-	if err != nil {
-		if err == domain.ErrGptIsDown {
-			s.logger.Warn(err)
-			return c.Send("Ошибка сервера при запросе рекомендаций.")
-		}
-
-		if errors.Is(err, context.DeadlineExceeded) {
-			s.logger.Warn("timeout gpt asking")
-			return c.Send(ErrServerIsBusy)
-		}
-	}
-
-	return c.Send(rec)
+	return c.Send("")
 }
 
 func (s *server) saveAuthorsHandle(c tele.Context) error {
