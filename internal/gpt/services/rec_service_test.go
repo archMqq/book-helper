@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/archMqq/book-helper/internal/gpt/domain"
-	"github.com/archMqq/book-helper/internal/gpt/models"
 	"github.com/archMqq/book-helper/internal/gpt/services"
 	"github.com/archMqq/book-helper/internal/gpt/services/mocks"
+	"github.com/archMqq/book-helper/internal/models"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )

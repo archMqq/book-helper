@@ -10,6 +10,8 @@ import (
 
 type Config struct {
 	basecfg.BaseCfg
+	TopicIn     string  `mapstructure:"topic_in"`
+	TopicOut    string  `mapstructure:"topic_out"`
 	GPTToken    string  `mapstructure:"GPT_TOKEN"`
 	Model       string  `mapstructure:"model"`
 	Temperature float32 `mapstructure:"temperature"`
@@ -37,7 +39,7 @@ func load() (*Config, error) {
 		return nil, fmt.Errorf("env readin: %w", err)
 	}
 
-	viper.SetConfigFile("configs/config.toml")
+	viper.SetConfigFile("configs/gpt/config.toml")
 	viper.SetConfigType("toml")
 	if err := viper.MergeInConfig(); err != nil {
 		return nil, fmt.Errorf("toml mergein: %w", err)

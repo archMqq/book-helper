@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/archMqq/book-helper/internal/gpt/domain"
-	"github.com/archMqq/book-helper/internal/gpt/models"
+	"github.com/archMqq/book-helper/internal/models"
 )
 
 type GPTClient interface {

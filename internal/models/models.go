@@ -14,3 +14,12 @@ type KakfaGPTAskQuery struct {
 	Cmd  string
 	Pref Preferences
 }
+
+type GptServiceOut struct {
+	Books []BookData
+}
+
+type BookData struct {
+	AuthorName string
+	BookName   string
+}

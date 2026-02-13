@@ -3,7 +3,6 @@ package clients
 import (
 	"context"
 	"fmt"
-	"log"
 
 	"github.com/archMqq/book-helper/internal/gpt/config"
 	"github.com/sheeiavellie/go-yandexgpt"
@@ -35,7 +34,8 @@ func (g *YandexGPTClient) AskForNewBooks(ctx context.Context, pref string) (stri
 	Make sure your recommendations are diverse and reflect different aspects of the user's interests,
 	and can include new authors and subgenres. 
 	Format your response as a simple list with each entry on a new line. 
-	You should reply as russian with a message structure as author_full_name:book_name new_line.`
+	You should reply as russian with a message structure as author_full_name:book_name new_line.
+	Use english names only, but books must have a russian translation`
 
 	res, err := g.client.GetCompletion(ctx, yandexgpt.YandexGPTRequest{
 		ModelURI: g.model,
@@ -56,7 +56,6 @@ func (g *YandexGPTClient) AskForNewBooks(ctx context.Context, pref string) (stri
 	})
 
 	if err != nil {
-		log.Fatal(err)
 		return "", fmt.Errorf("YandexGPT: %w", err)
 	}
 
