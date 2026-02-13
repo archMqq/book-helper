@@ -7,7 +7,10 @@ import (
 )
 
 // TODO: добавить запись логов в графану
-// TODO: добавить разделение на микросервис
+func InitForService(serviceName string) *logrus.Entry {
+	return Init().WithField("app-service", serviceName)
+}
+
 func Init() *logrus.Logger {
 	logger := logrus.New()
 	logger.SetLevel(logrus.DebugLevel)
