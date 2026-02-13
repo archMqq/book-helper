@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/archMqq/book-helper/internal/bot/domain"
-	"github.com/archMqq/book-helper/internal/bot/models"
+	"github.com/archMqq/book-helper/internal/models"
 	"github.com/sirupsen/logrus"
 )
 

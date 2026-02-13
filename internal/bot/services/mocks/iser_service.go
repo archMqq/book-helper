@@ -8,7 +8,7 @@ import (
 	context "context"
 	reflect "reflect"
 
-	models "github.com/archMqq/book-helper/internal/bot/models"
+	models "github.com/archMqq/book-helper/internal/models"
 	gomock "github.com/golang/mock/gomock"
 )
 

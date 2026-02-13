@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/archMqq/book-helper/internal/bot/models"
 	"github.com/archMqq/book-helper/internal/logger"
+	"github.com/archMqq/book-helper/internal/models"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/time/rate"
 	"gopkg.in/telebot.v4"
@@ -41,7 +41,7 @@ type UserService interface {
 
 type server struct {
 	bot         *tele.Bot
-	logger      *logrus.Logger
+	logger      *logrus.Entry
 	userService UserService
 	states      *userStates
 	msgQueue    *msgQueue
@@ -49,7 +49,7 @@ type server struct {
 
 func newServer(b *tele.Bot, userService UserService) *server {
 	return &server{
-		logger:      logger.Init(),
+		logger:      logger.InitForService("bot"),
 		bot:         b,
 		userService: userService,
 		states:      newUserStates(),
